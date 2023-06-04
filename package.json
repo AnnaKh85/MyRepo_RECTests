@@ -9,6 +9,7 @@
     "cy:run:run": "cypress run --record --key 699373b1-6758-4b33-89c9-2692bc19697f --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080 --spec cypress/e2e/01_API_sighup.cy.js,cypress/e2e/02_UI_openSite.cy.js"
   },
   "dependencies": {
+    "pg": "^8.11.0",
     "pg-promise": "^11.5.0"
   }
 }

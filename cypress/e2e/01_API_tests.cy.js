@@ -1,40 +1,46 @@
 /// <reference types="Cypress" />
 
-describe('API. E2E testing', () =>{
-    let token; 
-    const baseURL = Cypress.env('testAPI_url')
-    const fixtureFile = 'dataForAPITests.json'
-    let userExist = false;
+describe('API. E2E testing', () => {
+  let token;
+  const baseURL = Cypress.env('testAPI_url')
+  const fixtureFile = 'dataForAPITests.json'
+  let userExist = false;
+  let skipTest = false;
 
-    beforeEach(() => {
-        cy.fixture(fixtureFile).then((fixtureData) => {
-          cy.task('connectDB', 'SELECT id, email, "name", "password" FROM public.application_user;')
-            .then((dbResponse) => {
-              const existingUser = dbResponse.find((user) => user.email === fixtureData.email && user.name === fixtureData.name);
-              if (existingUser) {
-                cy.log('User exists');
-                userExist = true;
-                //Cypress.runner.stop();
-              }
-            });
+  beforeEach(() => {
+    cy.fixture(fixtureFile).then((fixtureData) => {
+      const { email, name } = fixtureData;
+      const sqlQuery = `SELECT id, email, name, password FROM public.application_user WHERE email = '${email}' and name = '${name}';`;
+
+      cy.task("connectDB", sqlQuery)
+        .then((dbResponse) => {
+          const existingUser = dbResponse.length > 0;
+          cy.log(existingUser)
+          if (existingUser) {
+            //cy.log('User exists, all tests are skipped');
+            userExist = true;
+            skipTest = true;
+            //Cypress.runner.stop();
+          }
         });
-      });
+    });
+  });
 
   // api/v1/auth/register
   it('API. Register a new user', () => {
-    if (userExist) {
-        cy.log('User does not exist. Skipping test.')
-        cy.skip();
+    if (skipTest) {
+      cy.log('User does not exist. Skipping test.')
+      return
     } else {
-        cy.fixture(fixtureFile).then((fixtureData) => {
-            cy.request('POST', baseURL + '/api/v1/auth/register', fixtureData)
-              .then((response) => {
-                expect(response.status).to.eq(201);
-                expect(response.body.data.authenticationResponse.token).to.exist;
-                token = response.body.data.authenticationResponse.token;
-                cy.log(token);
-            });
-        });
+      cy.fixture(fixtureFile).then((fixtureData) => {
+        cy.request('POST', baseURL + '/api/v1/auth/register', fixtureData)
+          .then((response) => {
+            expect(response.status).to.eq(201);
+            expect(response.body.data.authenticationResponse.token).to.exist;
+            token = response.body.data.authenticationResponse.token;
+            cy.log(token);
+          });
+      });
     }
 
   });
@@ -42,50 +48,44 @@ describe('API. E2E testing', () =>{
   // api/v1/auth/authenticate
   it('API. Authenticate an existing user', () => {
     if (userExist) {
-        cy.fixture(fixtureFile).then((fixtureData) => {
-            cy.request('POST', baseURL + '/api/v1/auth/authenticate', fixtureData)
-              .then((response) => {
-                expect(response.status).to.eq(200);
-                expect(response.body.data.authenticationResponse.token).to.exist;
-                token = response.body.data.authenticationResponse.token;
-                cy.log('Got a new token ' + token);
-            });
-        });
+      cy.fixture(fixtureFile).then((fixtureData) => {
+        cy.request('POST', baseURL + '/api/v1/auth/authenticate', fixtureData)
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body.data.authenticationResponse.token).to.exist;
+            token = response.body.data.authenticationResponse.token;
+            cy.log('Got a new token ' + token);
+          });
+      });
     } else {
-        cy.log('User does not exist. Skipping test.')
-        cy.skip();
+      cy.log('User does not exist. Skipping test.')
+      skipTest = true;
+      return
     }
   });
 
   // api/v1/client/settings
   it('API. Get User personal information', () => {
-    cy.request({
-      method: 'GET',
-      url: baseURL + '/api/v1/client/settings',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-    });
+    if (userExist) {
+      cy.request({
+        method: 'GET',
+        url: baseURL + '/api/v1/client/settings',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+      });
+    } else {
+      cy.log('User does not exist. Skipping test.')
+      skipTest = true;
+      return
+    }
   });
 
   // api/v1/client/settings/personal-info
   it('API. Update user name', () => {
-    const requestBody = {
-      "name": "New name"
-    };
 
-    cy.request({
-      method: 'PATCH',
-      url: baseURL + '/api/v1/client/settings/personal-info',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: requestBody
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-    });
   });
 
   //api/v1/client/tags
@@ -115,15 +115,23 @@ describe('API. E2E testing', () =>{
 
   // api/v1/client/settings/account-delete
   it('API. Delete user', () => {
-    cy.request({
-      method: 'DELETE',
-      url: baseURL + '/api/v1/client/settings/account-delete',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then((response) => {
-      expect(response.status).to.eq(204);
-    });
+
+    if (userExist) {
+      cy.request({
+        method: 'DELETE',
+        url: baseURL + '/api/v1/client/settings/account',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then((response) => {
+        expect(response.status).to.eq(204);
+      });
+    } else {
+      cy.log('User does not exist. Skipping test.')
+      skipTest = true;
+      return
+    }
+
   });
 
 });

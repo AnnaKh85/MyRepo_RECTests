@@ -3,7 +3,7 @@ const { Client } = require('pg');
 
 
 module.exports = defineConfig({
-  projectId: "qtvow1",
+  projectId: "qctdgp",
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
@@ -26,3 +26,6 @@ module.exports = defineConfig({
     },
   },
 });
+
+
+require('@applitools/eyes-cypress')(module);

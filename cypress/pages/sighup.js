@@ -36,6 +36,12 @@ class SighupPage{
     getGetStartedBtn(){
         return cy.get('.sign-page__form > .submit-btn')
     }
+    getUserExistMsg(){
+        return cy.get('.error-in-form')
+    }
+    getSighInLink(){
+        return cy.get('.switch-block__link')
+    }
 }
 
 export default SighupPage

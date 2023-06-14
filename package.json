@@ -1,14 +1,15 @@
 {
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "cypress": "^12.13.0"
+    "cypress": "^12.14.0"
   },
   "scripts": {
     "cy:run:prod": "cypress open --env testUI_url=http://209.38.198.69:3000,testAPI_url=http://209.38.198.69:8080",
     "cy:run:qa": "cypress open --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080",
-    "cy:run:run": "cypress run --record --key 699373b1-6758-4b33-89c9-2692bc19697f --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080 --spec cypress/e2e/01_API_sighup.cy.js,cypress/e2e/02_UI_openSite.cy.js"
+    "cy:run:run": "cypress run --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080"
   },
   "dependencies": {
+    "@applitools/eyes-cypress": "^3.33.1",
     "pg": "^8.11.0",
     "pg-promise": "^11.5.0"
   }

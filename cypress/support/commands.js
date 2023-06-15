@@ -45,3 +45,10 @@ Cypress.Commands.add('loginAPI', () => {
            })
 })
 })
+
+Cypress.Commands.add('getUserData', () => {
+  cy.window().then((win) => {
+    const userData = JSON.parse(win.localStorage.getItem('authRegister'));
+    cy.wrap(userData).as('authRegister');
+  });
+});

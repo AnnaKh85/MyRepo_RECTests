@@ -1,5 +1,6 @@
 {
   "name": "Anna123",
   "email": "hello@newUser222.com",
-  "password": "123456"
+  "password": "123456",
+  "newPassword": "123456789"
 }

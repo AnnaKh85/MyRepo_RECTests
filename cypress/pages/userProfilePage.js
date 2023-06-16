@@ -53,6 +53,55 @@ class UserProfilePage {
     getEmailErrorMsg(){
         return cy.get(':nth-child(2) > .caption')
     }
+    getChangePasswordMenuBtn(){
+        return cy.get('.false.profile-menu__btn')
+    }
+    getOldPasswordInput(){
+        return cy.get('#oldPassword')
+    }
+    getNewPasswordInput(){
+        return cy.get('#password')
+    }
+    getNewPasswordRepeatInput(){
+        return cy.get('#repeatPassword')
+    }
+    getSaveNewPasswordBtn(){
+        return cy.get('.profile-change-password__submit-btn')
+    }
+    getLogoutBtn(){
+        return cy.get('.profile-menu__btns > button:nth-of-type(3)')
+    }
+
+    getLoginBtn(){
+        return cy.get('.btn')
+    }
+    getWelcomeBackTxt(){
+        return cy.get('.sign-page__header')
+    }
+    getEmailInput(){
+        return cy.get('#email')
+    }
+    getPasswordInput(){
+        return cy.get('#password')
+    }
+    getRememberMeChbx(){
+        return cy.get('#checkbox')
+    }
+    getSighInBtn(){
+        return cy.get('.submit-btn')
+    }
+    getDeleteAccBtn(){
+        return cy.get('.profile-menu > div > .profile-menu__btn')
+    }
+    getDeleteAccText(){
+        return cy.get('.delete-account__text')
+    }
+    getDeleteAccCancelBtn(){
+        return cy.get('.delete-account__cancel')
+    }
+    getDeleteAccOkBtn(){
+        return cy.get('.delete-account__ok')
+    }
 
 }
 

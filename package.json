@@ -5,8 +5,8 @@
   },
   "scripts": {
     "cy:run:prod": "cypress open --env testUI_url=http://209.38.198.69:3000,testAPI_url=http://209.38.198.69:8080",
-    "cy:run:qa": "cypress open --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080",
-    "cy:run:run": "cypress run --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080"
+    "cy:run:qa": "cypress open --browser chrome --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080",
+    "cy:run:run": "cypress run --browser chrome --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080"
   },
   "dependencies": {
     "@applitools/eyes-cypress": "^3.33.1",

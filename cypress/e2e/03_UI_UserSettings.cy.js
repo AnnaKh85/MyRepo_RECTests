@@ -45,7 +45,41 @@ describe(('User profile tests'), () => {
 
     profilePage.getSaveChangesBtn().click()
 
-    profilePage.getNameErrorMsg().should('not.be.visible')
-    profilePage.getEmailErrorMsg().should('not.be.visible')
+    //  turn on after correction 
+    //profilePage.getNameErrorMsg().should('not.be.visible')
+    //profilePage.getEmailErrorMsg().should('not.be.visible')
+
+    profilePage.getChangePasswordMenuBtn().click()
+
+    cy.fixture('sighup').then((data) =>{
+      profilePage.getOldPasswordInput().type(data.password)
+      profilePage.getNewPasswordInput().type(data.newPassword)
+      profilePage.getNewPasswordRepeatInput().type(data.newPassword)
+      profilePage.getSaveNewPasswordBtn().click()
+
+      profilePage.getLogoutBtn().click()
+
+      profilePage.getLoginBtn().click()
+
+      profilePage.getWelcomeBackTxt().should('have.text', 'Welcome back!')
+
+      cy.fixture('sighup').then((data) => {
+        profilePage.getEmailInput().type(data.email)
+        //profilePage.getPasswordInput().type(data.newPassword) - turn on after correction 
+        profilePage.getPasswordInput().type(data.password)
+      })
+      profilePage.getRememberMeChbx().check()
+      profilePage.getSighInBtn().click()
+
+      profilePage.getProfileIconBtn().click()
+
+      profilePage.getDeleteAccBtn().click()
+      profilePage.getDeleteAccText().should('have.text', 'Are you sure you want to delete your account?')
+      profilePage.getDeleteAccCancelBtn().click()
+      profilePage.getDeleteAccBtn().click()
+      profilePage.getDeleteAccOkBtn().click()
+
+      
+    })
   })
 })

@@ -4,6 +4,8 @@ const { Client } = require('pg');
 
 module.exports = defineConfig({
   projectId: "qctdgp",
+  viewportHeight: 1024,
+  viewportWidth: 1280,
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

@@ -5,20 +5,24 @@ class UserProfilePage {
     }
 
     getProfileIconBtn(){
-        return cy.get('.default-avatar')
+        return cy.get('.profile-btn-popup__btn .avatar__image_default')
+    }
+
+    getEnterToProfileBtn(){
+        return cy.get('.data-btn-cross__btn')
     }
 
     getProfileTxt(){
         return cy.get('.profile-data__h3')
     }
     getMenuGeneralBtn(){
-        return cy.get('.profile-menu__btn_active')
+        return cy.get('.profile-menu__btns > button:nth-of-type(1)')
     }
     getGeneralTxt(){
         return cy.get('.general__header')
     }
     getGeneralReplacePicBtn(){
-        return cy.get('.general__btn')
+        return cy.get('.btn.general__btn')
     }
     getAddProfilePicTxt(){
         return cy.get('.add-profile-photo__header')
@@ -72,11 +76,23 @@ class UserProfilePage {
         return cy.get('.profile-menu__btns > button:nth-of-type(3)')
     }
 
+    getLogoutMsg(){
+        return cy.get('.delete-account__text')
+    }
+    
+    getLogoutCancelBtn(){
+        return cy.get('.delete-account__cancel')
+    }
+
+    getLogoutOKBtn(){
+        return cy.get('.delete-account__ok')
+    }
+
     getLoginBtn(){
         return cy.get('.btn')
     }
     getWelcomeBackTxt(){
-        return cy.get('.sign-page__header')
+        return cy.get('.main')
     }
     getEmailInput(){
         return cy.get('#email')

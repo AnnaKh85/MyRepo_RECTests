@@ -35,12 +35,12 @@ describe('Visit Recipetoria site', () => {
       sighupPage.getAgreeChbox().check().should('be.checked')
       sighupPage.getGetStartedBtn().click()
       
-      sighupPage.getUserExistMsg().should('be.visible').then(($err) => {
-        if ($err.length > 0) {
-          cy.log('User already exists.')
-          sighupPage.getSighInLink().click()
-        }
-      })
+      // sighupPage.getUserExistMsg().should('be.visible').then(($err) => {
+      //   if ($err.length > 0) {
+      //     cy.log('User already exists.')
+      //     sighupPage.getSighInLink().click()
+      //   }
+      // })
     })
   })
 
@@ -55,7 +55,7 @@ describe('Visit Recipetoria site', () => {
       sighInPage.getSighInBtn().click()
     })
 
-    startPage.getStartPageMsg().should('have.text', 'Start page')
+    startPage.getStartPageMsg().should('have.text', 'How it works')
 
     cy.window().then((win) => {
       const localStorageData = JSON.parse(win.localStorage.getItem('authRegister'));

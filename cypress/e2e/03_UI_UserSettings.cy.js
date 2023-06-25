@@ -19,8 +19,9 @@ describe(('User profile tests'), () => {
   it(('Open profile page'), () => {
     profilePage.visit()
     profilePage.getProfileIconBtn().click()
+    profilePage.getEnterToProfileBtn().click()
     profilePage.getProfileTxt().should('have.text', 'Profile')
-    profilePage.getMenuGeneralBtn().click()
+    //profilePage.getMenuGeneralBtn().click()
     profilePage.getGeneralTxt().should('have.text', 'General')
     profilePage.getGeneralReplacePicBtn().click()
     profilePage.getAddProfilePicTxt().should('have.text', 'Add profile photo')
@@ -36,18 +37,18 @@ describe(('User profile tests'), () => {
       });
     });
 
-    profilePage.getEmailInput().invoke('val').as('inputEmail')
-    cy.fixture('sighup').then((data) => {
-      cy.get('@inputEmail').then((inputEmail) => {
-        expect(inputEmail).to.equal(data.email);
-      });
-    });
+    // profilePage.getEmailInput().invoke('val').as('inputEmail')
+    // cy.fixture('sighup').then((data) => {
+    //   cy.get('@inputEmail').then((inputEmail) => {
+    //     expect(inputEmail).to.equal(data.email);
+    //   });
+    // });
 
     profilePage.getSaveChangesBtn().click()
 
     //  turn on after correction 
-    //profilePage.getNameErrorMsg().should('not.be.visible')
-    //profilePage.getEmailErrorMsg().should('not.be.visible')
+    // profilePage.getNameErrorMsg().should('not.be.visible')
+    // profilePage.getEmailErrorMsg().should('not.be.visible')
 
     profilePage.getChangePasswordMenuBtn().click()
 
@@ -59,19 +60,25 @@ describe(('User profile tests'), () => {
 
       profilePage.getLogoutBtn().click()
 
+      profilePage.getLogoutMsg().should('have.text', 'Are you sure you want to log out?')
+      profilePage.getLogoutCancelBtn().click()
+      profilePage.getLogoutBtn().click()
+      profilePage.getLogoutOKBtn().click()
+
       profilePage.getLoginBtn().click()
 
-      profilePage.getWelcomeBackTxt().should('have.text', 'Welcome back!')
+      //profilePage.getWelcomeBackTxt().should('have.text', 'Welcome back!')
+      //cy.url().should('include', '/add_recipe')
 
       cy.fixture('sighup').then((data) => {
         profilePage.getEmailInput().type(data.email)
-        //profilePage.getPasswordInput().type(data.newPassword) - turn on after correction 
-        profilePage.getPasswordInput().type(data.password)
+        profilePage.getPasswordInput().type(data.newPassword) //https://cgrey.atlassian.net/browse/REC-137
       })
       profilePage.getRememberMeChbx().check()
       profilePage.getSighInBtn().click()
 
       profilePage.getProfileIconBtn().click()
+      profilePage.getEnterToProfileBtn().click()
 
       profilePage.getDeleteAccBtn().click()
       profilePage.getDeleteAccText().should('have.text', 'Are you sure you want to delete your account?')

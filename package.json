@@ -1,15 +1,20 @@
 {
   "devDependencies": {
+    "@cypress/xpath": "^2.0.3",
+    "@faker-js/faker": "^8.0.2",
     "cross-env": "^7.0.3",
-    "cypress": "^12.14.0"
+    "cypress": "^12.14.0",
+    "cypress-multi-reporters": "^1.6.3"
   },
   "scripts": {
-    "cy:run:prod": "cypress open --env testUI_url=http://209.38.198.69:3000,testAPI_url=http://209.38.198.69:8080",
-    "cy:run:qa": "cypress open --browser chrome --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080",
-    "cy:run:run": "cypress run --browser chrome --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://localhost:3000,testAPI_url=http://localhost:8080"
+    "cy:run:prod": "cypress open --env testUI_url=http://159.223.242.134:3000,testAPI_url=http://159.223.242.134:8080",
+    "cy:run:qa": "cypress open --browser chrome --env testUI_url=http://188.166.200.140:3000,testAPI_url=http://188.166.200.140:8080",
+    "cy:run:qa:run": "set QASE_REPORT=1 && npx cypress run --browser chrome --env testUI_url=http://188.166.200.140:3000,testAPI_url=http://188.166.200.140:8080",
+    "cy:run:run": "cypress run --browser chrome --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://159.223.242.134:3000,testAPI_url=http://159.223.242.134:8080"
   },
   "dependencies": {
     "@applitools/eyes-cypress": "^3.33.1",
+    "cypress-qase-reporter": "^1.4.3",
     "pg": "^8.11.0",
     "pg-promise": "^11.5.0"
   }

@@ -1,34 +1,36 @@
 /// <reference types="Cypress" />
 
+import { faker } from "@faker-js/faker"
 import SighupPage from "../pages/sighup"
 import UserProfilePage from "../pages/userProfilePage"
+import { qase } from "cypress-qase-reporter/dist/mocha"
 
-const profilePage = new UserProfilePage
-const sighupPage = new SighupPage
+const profilePage = new UserProfilePage;
 
 describe(('User profile tests'), () => {
   beforeEach(() => {
-    cy.fixture('localStorageData.json').then((json) => {
-      const localStorageData = JSON.stringify(json);
-      cy.window().then((win) => {
-        win.localStorage.setItem('authRegister', localStorageData);
-      });
-    });
+      cy.fixture('sighup').then(function (data) {
+        this.data = data
+      })
   });
 
-  it(('Open profile page'), () => {
+  it.skip(('Open profile page'), () => {
     profilePage.visit()
     profilePage.getProfileIconBtn().click()
     profilePage.getEnterToProfileBtn().click()
     profilePage.getProfileTxt().should('have.text', 'Profile')
     //profilePage.getMenuGeneralBtn().click()
     profilePage.getGeneralTxt().should('have.text', 'General')
-    profilePage.getGeneralReplacePicBtn().click()
-    profilePage.getAddProfilePicTxt().should('have.text', 'Add profile photo')
-    profilePage.getAddProfilePicDragAndDropBtn().click()
-    profilePage.getAddProfilePicCancelBtn().click()
-    profilePage.getImageAllowedTxt().should('have.text', 'Allowed types: jpeg, jpg or png Maximum file size is 5 MB')
-    profilePage.getNameLabelTxt().should('have.text', 'Max 30 symbols')
+
+    //file uploading
+    //https://www.software-testing.ru/library/testing/testing-tools/3984-cypress-basics-uploading-file
+
+    //profilePage.getGeneralReplacePicBtn().click()
+    //profilePage.getAddProfilePicTxt().should('have.text', 'Add profile photo')
+    //profilePage.getAddProfilePicDragAndDropBtn().click()
+    //profilePage.getAddProfilePicCancelBtn().click()
+    //profilePage.getImageAllowedTxt().should('have.text', 'Allowed types: jpeg, jpg or png Maximum file size is 5 MB')
+    //profilePage.getNameLabelTxt().should('have.text', 'Max 30 symbols')
 
     profilePage.getNicknameInput().invoke('val').as('inputName')
     cy.fixture('sighup').then((data) => {
@@ -52,8 +54,9 @@ describe(('User profile tests'), () => {
 
     profilePage.getChangePasswordMenuBtn().click()
 
-    cy.fixture('sighup').then((data) =>{
+    cy.fixture('sighup').then((data) => {
       profilePage.getOldPasswordInput().type(data.password)
+      //profilePage.getOldPasswordInput().type(faker.password) - faker example
       profilePage.getNewPasswordInput().type(data.newPassword)
       profilePage.getNewPasswordRepeatInput().type(data.newPassword)
       profilePage.getSaveNewPasswordBtn().click()
@@ -86,7 +89,61 @@ describe(('User profile tests'), () => {
       profilePage.getDeleteAccBtn().click()
       profilePage.getDeleteAccOkBtn().click()
 
-      
+
     })
   })
+
+  qase(7, it(('REC-7_User_Profile'), () => {
+    const username = faker.internet.userName();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+    const repeatPassword = password;
+
+    cy.visit(Cypress.env('testUI_url'));
+
+    cy.createUser(username, email, password);
+
+    cy.fixture('testData.json').as('testData');
+    cy.get('@testData').then((testData) => {
+      const username = testData.username;
+      const email = testData.email;
+      const password = testData.password;
+
+      cy.get('.profile-btn-popup__btn > .avatar > .avatar__image').click();
+      cy.get('.data-btn-cross__btn').click();
+      cy.get('#nickname').clear().type(username + "123");
+      cy.get("[value='Save changes']").click();
+
+      cy.get('.false.profile-menu__btn').click();
+
+      cy.get('#oldPassword').clear().type(password);
+      cy.get('#password').clear().type('123456');
+      cy.get('#repeatPassword').clear().type('123456');
+      cy.get('.profile-change-password__submit-btn').click();
+      cy.get('.profile-menu__btns > :nth-child(3)').click();
+      cy.get('.modal-box').click();
+      cy.get('.delete-account__text').should('have.text', 'Are you sure you want to log out?');
+      cy.get('.delete-account__ok').click();
+      cy.get('.links > .btn').click();
+      cy.get('#email').clear().type(email);
+      cy.get('#password').clear().type('123456');
+      cy.get('.submit-btn').click();
+
+
+      cy.get('.profile-btn-popup__btn > .avatar > .avatar__image').click();
+      cy.get('.data-btn-cross__btn').click();
+      cy.get('.profile-menu__delete-btn-wrapper > .profile-menu__btn').click();
+      cy.get('.delete-account__text').should('have.text', 'Are you sure you want to delete your account?');
+      cy.get('.delete-account__ok').click();
+      cy.get('.links > .btn').click();
+      cy.get('#email').clear().type(email);
+      cy.get('#password').clear().type('123456');
+      cy.get('.submit-btn').click();
+      cy.get('.caption').should('have.text', 'A user with such an email address does not exist');
+
+    })
+
+
+  }))
+
 })

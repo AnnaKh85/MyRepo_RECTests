@@ -52,3 +52,21 @@ Cypress.Commands.add('getUserData', () => {
     cy.wrap(userData).as('authRegister');
   });
 });
+
+Cypress.Commands.add('createUser', (username, email, password) => {
+  cy.writeFile('cypress/fixtures/testData.json', {
+    username: username,
+    email: email,
+    password: password,
+  })
+  cy.visit(Cypress.env('testUI_url'));
+  cy.get('.links > .orange-btn').click();
+  cy.get('#nickname').clear().type(username);
+  cy.get('#email').clear().type(email);
+  cy.get('#password').clear().type(password);
+  cy.get('#repeatPassword').clear().type(password);
+  cy.get('#checkbox').check();
+  cy.get('.submit-btn').click();
+  cy.get('.left-container__h2').click();
+  cy.get('.left-container__h2 > :nth-child(2)').should('have.text', 'optimiser');
+})

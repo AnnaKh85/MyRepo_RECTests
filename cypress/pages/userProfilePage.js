@@ -8,6 +8,14 @@ class UserProfilePage {
         return cy.get('.profile-btn-popup__btn .avatar__image_default')
     }
 
+    getAvatarLogoutBtn(){
+        return cy.get('.log-out__btn')
+    }
+
+    getAvatarLogoutOKBtn(){
+        return cy.get('.delete-account__ok')
+    }
+
     getEnterToProfileBtn(){
         return cy.get('.data-btn-cross__btn')
     }
@@ -22,7 +30,7 @@ class UserProfilePage {
         return cy.get('.general__header')
     }
     getGeneralReplacePicBtn(){
-        return cy.get('.btn.general__btn')
+        return cy.get('.general__btn')
     }
     getAddProfilePicTxt(){
         return cy.get('.add-profile-photo__header')

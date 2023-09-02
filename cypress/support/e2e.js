@@ -15,6 +15,7 @@
 
 import '@applitools/eyes-cypress/commands'
 require('@cypress/xpath');
+require('cypress-plugin-tab');
 
 
 // Import commands.js using ES2015 syntax:

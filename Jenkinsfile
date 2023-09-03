@@ -17,9 +17,6 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          def npm = tool name: 'nodejs', type: 'NodeJSInstallation'
-          def cypress = "${npm}/bin/npx cypress"
-
           sh "${npm}/bin/npm install"
           sh "${cypress} run --browser ${BROWSER}"
         }

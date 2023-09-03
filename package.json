@@ -13,7 +13,7 @@
     "cy:run:qa:run": "set QASE_REPORT=1 && npx cypress run --browser chrome --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://188.166.200.140:3000,testAPI_url=http://188.166.200.140:8080",
     "cy:run:qa:ci": "cypress run --browser chrome --env testUI_url=http://188.166.200.140:3000,testAPI_url=http://188.166.200.140:8080",
     "cy:run:run": "cypress run --browser chrome --record --key ec3ec633-8531-472e-a2f7-9efe8b941886 --env testUI_url=http://159.223.242.134:3000,testAPI_url=http://159.223.242.134:8080",
-    "test:ci:record:chrome": "run-p --race start e2e:record:chrome --env testUI_url=http://159.223.242.134:3000,testAPI_url=http://159.223.242.134:8080"
+    "test:ci:record:chrome": "run-p --race start e2e:record:chrome --headless --env testUI_url=http://159.223.242.134:3000,testAPI_url=http://159.223.242.134:8080"
   },
   "dependencies": {
     "@applitools/eyes-cypress": "^3.33.1",

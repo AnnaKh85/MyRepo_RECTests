@@ -8,26 +8,26 @@ pipeline {
 
   stages {
     stage('Deploying') {
-      steps{
+      steps {
         echo "Building application"
       }
-      
     }
-    stage('Testing'){
-      steps{
-        def nodeJSInstallation = tool name: 'NodeJS 14.x', type: 'Tool'
-        def npm = "${nodeJSInstallation}/bin/npm"
-        def cypress = "${nodeJSInstallation}/bin/npx cypress"
+    stage('Testing') {
+      steps {
+        script {
+          def nodeJSInstallation = tool name: 'NodeJS 14.x', type: 'Tool'
+          def npm = "${nodeJSInstallation}/bin/npm"
+          def cypress = "${nodeJSInstallation}/bin/npx cypress"
 
-        sh "${npm} install"
-        sh "${cypress} run --browser ${BROWSER} --spec ${SPEC}"
+          sh "${npm} install"
+          sh "${cypress} run --browser ${BROWSER} --spec ${SPEC}"
+        }
       }
     }
-    stage('deploying'){
-      steps{
+    stage('deploying') {
+      steps {
         echo "Deploy the app"
       }
-      
     }
   }
 }

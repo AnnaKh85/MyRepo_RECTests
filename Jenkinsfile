@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  tools{
+  tools {
     nodejs 'nodejs'
   }
 
@@ -17,16 +17,15 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          def nodeJSInstallation = tool name: 'nodejs', type: 'Tool'
-          def npm = "${nodeJSInstallation}/bin/npm"
-          def cypress = "${nodeJSInstallation}/bin/npx cypress"
+          def npm = tool name: 'nodejs', type: 'NodeJSInstallation'
+          def cypress = "${npm}/bin/npx cypress"
 
-          sh "${npm} install"
+          sh "${npm}/bin/npm install"
           sh "${cypress} run --browser ${BROWSER}"
         }
       }
     }
-    stage('deploying') {
+    stage('Deploying') {
       steps {
         echo "Deploy the app"
       }

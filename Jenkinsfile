@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  tools{
+    nodejs 'nodejs'
+  }
 
   parameters {
     choice(name: 'BROWSER', choices: ['chrome', 'edge', 'firefox'], description: 'Choose the browser')

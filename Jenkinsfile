@@ -14,7 +14,7 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          def nodeJSInstallation = tool name: 'node', type: 'Tool'
+          def nodeJSInstallation = tool name: 'nodejs', type: 'Tool'
           def npm = "${nodeJSInstallation}/bin/npm"
           def cypress = "${nodeJSInstallation}/bin/npx cypress"
 
